@@ -1,29 +1,29 @@
+import {InternalServerErrorException} from "../../lib/index.js";
+import {successResponse} from "../../lib/index.js";
+
 export class AuthController {
     constructor(authService) {
         this.authService = authService;
     }
 
     async login(req, res) {
-        const credentials = req.body.dto;
-        const user = this.authService.validateLoginCredentials(credentials)
-
-        res.status(200).json({
-            msg: "Login successful",
-            credentials: user
-        })
+        const {user} = await this.authService.validateLoginCredentials(req.body.dto);
+        req.session.user = user;
+        return successResponse(res, {user}, 200);
     }
 
     async register(req, res) {
-        const credentials = req.body.dto;
-        res.status(200).json({
-            msg: "Register",
-            credentials: credentials
-        })
+        const {user} = await this.authService.registerUser(req.body.dto);
+        req.session.user = user;
+        return successResponse(res, {user}, 201);
     }
 
-    async protectedRoute(req, res) {
-        res.status(200).json({
-            msg: "You have accessed a protected route"
-        })
+    async logout(req, res) {
+        req.session.destroy((err) => {
+            if (err) {
+                throw new InternalServerErrorException("Failed to log out", err);
+            }
+            return successResponse(res, {}, 200, null, "Logged out successfully");
+        });
     }
 }

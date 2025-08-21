@@ -11,11 +11,13 @@ const logger = winston.createLogger({
                 winston.format.simple()
             ),
         }),
-        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+        new winston.transports.File({filename: 'logs/error.log', level: 'error'}),
+        new winston.transports.File({filename: 'logs/warning.log', level: 'warning'}),
     ]
 });
 
 export const loggerMiddleware = expressWinston.logger({
     winstonInstance: logger,
-    statusLevels: true
+    statusLevels: true,
+    format: winston.format.combine()
 })

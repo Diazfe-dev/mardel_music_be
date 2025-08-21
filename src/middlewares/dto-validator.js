@@ -1,5 +1,4 @@
-import { BaseDto } from "../models/dto/index.js";
-import { BadRequestException, InternalServerErrorException } from "../models/exceptions/index.js";
+import { BadRequestException} from "../lib/exceptions/index.js";
 
 export function validateDto(DtoClass){
     return (req, res, next) => {

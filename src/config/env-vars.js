@@ -4,6 +4,7 @@ dotenv.config();
 const envVars = {
     HOST: process.env.HOST || 'localhost',
     PORT: process.env.PORT || 3000,
+    CORS_WHITELIST: process.env.CORS_WHITELIST || 'http://localhost:5173',
     API_PREFIX: process.env.API_PREFIX || 'api',
     API_VERSION: process.env.API_VERSION || 'v1',
     NODE_ENV: process.env.NODE_ENV || 'development',
