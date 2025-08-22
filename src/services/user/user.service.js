@@ -16,6 +16,9 @@ export class UserService {
         }
 
         const user = await this.userRepository.findById(userId);
+        console.log(user);
+        delete user.password;
+
         if (!user) throw new UnauthorizedException("User not found");
 
         const profile = await this.profileRepository.findByUserId(userId);

@@ -16,11 +16,10 @@ import {BcryptService} from "../../services/bcrypt/bcrypt.service.js";
 import {BcryptAdapter, JwtAdapter} from "../../lib/index.js";
 
 // Repositories
-import {UserRepository, RoleRepository, ProfileRepository} from "../../repositories/index.js";
+import {UserRepository, RoleRepository} from "../../repositories/index.js";
 // Dtos
 import {LoginUserDto, RegisterUserDto} from "../../models/dto/index.js";
 
-const profileRepository = new ProfileRepository(mysqlClient);
 const roleRepository = new RoleRepository(mysqlClient);
 const userRepository = new UserRepository(mysqlClient);
 const jwtService = new JsonWebTokenService(new JwtAdapter());

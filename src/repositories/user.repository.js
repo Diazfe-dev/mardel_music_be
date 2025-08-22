@@ -11,6 +11,7 @@ export class UserRepository {
                        u.lastName,
                        u.email,
                        u.password,
+                       u.profile_picture,
                        u.created_at,
                        u.updated_at,
                        r.id   AS role_id,
@@ -37,6 +38,7 @@ export class UserRepository {
                        u.lastName,
                        u.email,
                        u.password,
+                       u.profile_picture,
                        u.created_at,
                        u.updated_at,
                        r.id   AS role_id,
@@ -55,13 +57,13 @@ export class UserRepository {
         return this.__mapUserWithPermissions(rows);
     }
 
-    async create({role_id, name, lastName, email, password}) {
+    async create({role_id, name, lastName, email, password, profile_picture = null}) {
         const [result] = await this.db.execute(
             `
-                INSERT INTO users (role_id, name, lastName, email, password)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO users (role_id, name, lastName, email, password, profile_picture)
+                VALUES (?, ?, ?, ?, ?, ?)
             `,
-            [role_id, name, lastName, email, password]
+            [role_id, name, lastName, email, password, profile_picture]
         );
 
         return this.findById(result.insertId);
@@ -70,7 +72,7 @@ export class UserRepository {
     __mapUserWithPermissions(rows) {
         if (!rows.length) return null;
 
-        const {id, name, lastName, email, password, created_at, updated_at, role_id, role_name} = rows[0];
+        const {id, name, lastName, email, password, profile_picture, created_at, updated_at, role_id, role_name} = rows[0];
         const permissions = rows
             .filter(r => r.permission_id)
             .map(r => (r.permission_name));
@@ -80,6 +82,7 @@ export class UserRepository {
             name,
             lastName,
             email,
+            profile_picture,
             password,
             created_at,
             updated_at,
