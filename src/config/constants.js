@@ -7,5 +7,5 @@ const API_BASE = `/${API_PREFIX}/${API_VERSION}`;
 
 export default {
     COOKIE_MAX_AGE,
-    API_BASE
+    API_BASE,
 }

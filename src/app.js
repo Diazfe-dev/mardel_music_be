@@ -1,8 +1,8 @@
-import app from "./server/index.js";
+import app from "./presentation/server/index.js";
 import envVars from "./config/env-vars.js";
 import constants from "./config/constants.js";
-import mysqlClient from "./database/mysql/mysql-client.js";
-import redisClient from "./database/redis/redis-client.js";
+import mysqlClient from "./infrastructure/database/mysql/mysql-client.js";
+import redisClient from "./infrastructure/database/redis/redis-client.js";
 
 const {HOST, PORT} = envVars;
 const {API_BASE} = constants;
