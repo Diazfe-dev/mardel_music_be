@@ -8,7 +8,6 @@ export function validateDto(DtoClass) {
             if (errors.length > 0) {
                 throw new BadRequestException(errors.join(", "));
             }
-
             req.body.dto = dtoInstance.serialize();
             next();
         } catch (error) {
@@ -20,8 +19,6 @@ export function validateDto(DtoClass) {
 export function validateDtoFromParams(DtoClass, param) {
     return (req, res, next) => {
         try {
-            console.log();
-
             const dtoInstance = new DtoClass(req.params[param]);
             const errors = dtoInstance.validate();
             if (errors.length > 0) {

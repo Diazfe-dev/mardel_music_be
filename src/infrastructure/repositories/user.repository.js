@@ -1,4 +1,5 @@
-import { InternalServerErrorException } from "../lib/index.js";
+import {InternalServerErrorException} from "../lib/index.js";
+import {UserDto, UserDtoWithPermissions} from "../../domain/models/dto/index.js";
 
 export class UserRepository {
     constructor(db) {
@@ -11,7 +12,10 @@ export class UserRepository {
                 'SELECT * FROM user_permissions_details WHERE user_email = ?',
                 [email]
             );
-            return this.__mapUserWithPermissions(rows);
+            if (!rows || rows.length === 0 || !rows[0]) {
+                return null; // No se encontró el usuario
+            }
+            return new UserDtoWithPermissions(rows[0]).serialize();
         } catch (err) {
             throw new InternalServerErrorException('Database query failed: ' + err.message);
         }
@@ -23,21 +27,29 @@ export class UserRepository {
                 'SELECT * FROM user_permissions_details WHERE user_id = ?',
                 [id]
             );
-            return this.__mapUserWithPermissions(rows);
+            return new UserDtoWithPermissions(rows[0]).serialize();
         } catch (err) {
             throw new InternalServerErrorException('Database query failed: ' + err.message);
         }
     }
 
-    async create({ role_id = null, name, lastName, email, password, profile_picture = null }) {
+    async create({
+                     role_id = null,
+                     name,
+                     lastName,
+                     email,
+                     password,
+                     profile_picture = null,
+                     social_login = false,
+                     phone_number = null
+                 }) {
         try {
             await this.db.execute(
-                `CALL sp_create_user(?, ?, ?, ?, ?, ?, @new_user_id)`,
-                [name, lastName, email, password, profile_picture, role_id]
+                `CALL sp_create_user(?, ?, ?, ?, ?, ?, ?, ?, @new_user_id)`,
+                [name, lastName, email, password, profile_picture, role_id, social_login, phone_number]
             );
-
             const [result] = await this.db.execute(`SELECT @new_user_id AS user_id`);
-            const new_user_id = result[0].user_id;
+            const new_user_id = result && result.length > 0 ? result[0].user_id : null;
 
             if (!new_user_id) {
                 throw new InternalServerErrorException('Failed to retrieve user_id after creation from SP.');
@@ -48,36 +60,16 @@ export class UserRepository {
         }
     }
 
-    __mapUserWithPermissions(rows) {
-        if (!rows || rows.length === 0) return null;
-        const {
-            user_id,
-            user_name,
-            user_lastName,
-            user_email,
-            user_password,
-            user_profile_picture,
-            user_created_at,
-            user_updated_at,
-            role_id,
-            role_name,
-            permissions
-        } = rows[0];
-
-        return {
-            id: user_id,
-            name: user_name,
-            lastName: user_lastName,
-            email: user_email,
-            profile_picture: user_profile_picture,
-            password: user_password,
-            createdAt: user_created_at,
-            updatedAt: user_updated_at,
-            role: {
-                id: role_id,
-                name: role_name
-            },
-            permissions: permissions ? permissions.split(',').map(p => p.trim()) : []
-        };
+    async updateProfileImage(userId, imageUrl) {
+        console.log(userId, imageUrl);
+        try {
+            const [result] = await this.db.execute(
+                `UPDATE users SET profile_picture = ? WHERE id = ?`,
+                [imageUrl, userId]
+            );
+            return result.affectedRows > 0;
+        } catch (err) {
+            throw new InternalServerErrorException('Failed to update profile image: ' + err.message);
+        }
     }
 }

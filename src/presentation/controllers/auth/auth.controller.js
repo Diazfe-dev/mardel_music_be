@@ -7,6 +7,7 @@ export class AuthController {
     }
 
     async login(req, res) {
+        console.log(req.body.dto);
         const {user} = await this.authService.validateLoginCredentials(req.body.dto);
         req.session.user = user;
         return successResponse(res, {user}, 200);

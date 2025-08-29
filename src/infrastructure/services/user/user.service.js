@@ -1,6 +1,4 @@
-import {
-    BadRequestException,UnauthorizedException
-} from "../../lib/exceptions/index.js";
+import {BadRequestException, UnauthorizedException} from "../../lib/index.js";
 
 export class UserService {
     constructor(userRepository, profileRepository) {
@@ -24,5 +22,16 @@ export class UserService {
                 profile: profile ?? null
             }
         };
+    }
+
+    async saveProfileImage(userId, imageUrl) {
+        if (!userId) {
+            throw new BadRequestException("User ID is required");
+        }
+        if (!imageUrl) {
+            throw new BadRequestException("Profile image is required");
+        }
+
+        return await this.userRepository.updateProfileImage(userId, imageUrl);
     }
 }

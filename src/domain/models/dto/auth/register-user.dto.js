@@ -1,14 +1,15 @@
-import {BaseDto} from "../base-dto/index.js";
+import {BaseDto} from "../index.js";
 
 export class RegisterUserDto extends BaseDto {
     emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    constructor({name, lastName, email, password}) {
+    constructor({name, lastName, email, password, phone_number}) {
         super();
         this.name = name;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.phone_number = phone_number;
     }
 
     validate() {
@@ -17,6 +18,7 @@ export class RegisterUserDto extends BaseDto {
         if (!this.lastName || this.lastName.length < 3) errors.push("Last name must be at least 3 characters long.");
         if (!this.email || !this.emailRegex.test(this.email)) errors.push("Email is invalid.");
         if (!this.password || this.password.length < 6) errors.push("Password must be at least 6 characters long.");
+        if (this.phone_number && this.phone_number.length < 7) errors.push("Phone number must be at least 7 characters long.");
         return errors;
     }
 
@@ -25,7 +27,8 @@ export class RegisterUserDto extends BaseDto {
             name: this.name,
             lastName: this.lastName,
             email: this.email,
-            password: this.password
+            password: this.password,
+            phone_number: this.phone_number
         };
     }
 };

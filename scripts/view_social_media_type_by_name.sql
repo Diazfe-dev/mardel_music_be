@@ -1,4 +1,4 @@
-DROP VISELECT * FROM social_media_type_by_name WHERE social_media_type_name = "music"EW IF EXISTS social_media_type_by_name;
+DROP VIEW IF EXISTS social_media_type_by_name;
 
 CREATE VIEW social_media_type_by_name AS
 SELECT

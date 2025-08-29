@@ -8,11 +8,10 @@ import {randomUUID} from "crypto"
 
 export class AuthService {
 
-    constructor(jwtService, bcryptService, userRepository, roleRepository) {
+    constructor(jwtService, bcryptService, userRepository) {
         this.jwtService = jwtService
         this.bcryptService = bcryptService
         this.userRepository = userRepository
-        this.roleRepository = roleRepository
     }
 
     async validateLoginCredentials(data) {
@@ -33,8 +32,7 @@ export class AuthService {
     }
 
     async registerUser(data, role) {
-        const {name, lastName, email, password} = data;
-
+        const {name, lastName, email, password, phone_number} = data;
 
         if (!name || !lastName || !email || !password) {
             throw new BadRequestException("Missing required fields: name, lastName, email, password");
@@ -49,7 +47,8 @@ export class AuthService {
             name,
             lastName,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            phone_number
         });
 
         if (!newUser) {
