@@ -24,4 +24,14 @@ export class SocialMediaController {
         }
     }
 
+    async getAllSocialMediaByType(req, res) {
+        try {
+            const {type} = req.params.dto
+            const socialMedias = await this.socialMediaService.getAllSocialMediaByType(type);
+            return successResponse(res, {socialMedias}, 200);
+        } catch (error) {
+            throw new InternalServerErrorException("Failed to fetch social media types");
+        }
+    }
+
 }

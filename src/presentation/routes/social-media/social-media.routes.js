@@ -1,9 +1,14 @@
 import Router from 'express'
-import {sessionGuard} from "../../../infrastructure/middlewares/index.js";
+import {
+    sessionGuard,
+    validateDto,
+    validateDtoFromParams,
+} from "../../../infrastructure/middlewares/index.js";
 import mysqlClient from "../../../infrastructure/database/mysql/mysql-client.js";
 import {SocialMediaRepository} from "../../../infrastructure/repositories/social-media.repository.js";
 import {SocialMediaService} from "../../../infrastructure/services/social-media/social-media.service.js";
 import {SocialMediaController} from "../../controllers/social-media/social-media.controller.js";
+import {SocialMediaTypeDto} from "../../../domain/models/dto/index.js";
 
 const socialMediaRouter = new Router();
 const socialMediaRepository = new SocialMediaRepository(mysqlClient);
@@ -20,10 +25,9 @@ socialMediaRouter.get('/all/types',
     async (req, res) => await socialMediaController.getAllSocialMediaTypes(req, res)
 );
 
-socialMediaRouter.get('/types/:type', (req, res) => {
-    console.log(req.params.type);
-
-    res.json({message: `Get social media by type: ${req.params.type}`});
-})
+socialMediaRouter.get('/all/types/:type',
+    sessionGuard,
+    validateDtoFromParams(SocialMediaTypeDto, "type"),
+    async (req, res) => await socialMediaController.getAllSocialMediaByType(req, res))
 
 export default socialMediaRouter;

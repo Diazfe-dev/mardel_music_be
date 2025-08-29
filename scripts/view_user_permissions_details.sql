@@ -8,8 +8,8 @@ SELECT
     u.name AS user_name,
     u.lastName AS user_lastName,
     u.email AS user_email,
-    -- Considera NO exponer la contraseña en una vista si no es estrictamente necesario por seguridad.
     u.password AS user_password,
+    u.profile_picture AS user_profile_picture,
     u.created_at AS user_created_at,
     u.updated_at AS user_updated_at,
     r.id AS role_id,

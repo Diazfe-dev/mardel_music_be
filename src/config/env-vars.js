@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const envVars = {
+    BASE_URL: process.env.BASE_URL || 'http://localhost:8080',
     HOST: process.env.HOST || 'localhost',
     PORT: process.env.PORT || 3000,
     CORS_WHITELIST: process.env.CORS_WHITELIST || 'http://localhost:5173',

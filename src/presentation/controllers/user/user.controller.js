@@ -11,7 +11,7 @@ export class UserController {
             const {user} = await this.userService.getUserProfile(req.session.user.id);
             return successResponse(res, {user}, 200);
         } catch (error) {
-            throw new InternalServerErrorException("Failed to retrieve user profile", error);
+            throw new InternalServerErrorException("Failed to retrieve user artist", error);
         }
     }
 }

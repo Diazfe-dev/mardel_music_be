@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import helmet from "helmet";
 import corsMiddleware from "../../infrastructure/middlewares/cors-middleware.js";
 import {
@@ -13,6 +14,8 @@ import constants from "../../config/constants.js";
 const {API_BASE} = constants
 
 const app = express();
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, 'files')));
 app.use(helmet())
 app.use(corsMiddleware);
 app.use(loggerMiddleware)

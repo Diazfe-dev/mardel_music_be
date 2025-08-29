@@ -4,7 +4,7 @@ node_modules
 # Ignore IDE specific files
 .idea
 .vscode
-
+files
 #Log files
 logs/
 *.log

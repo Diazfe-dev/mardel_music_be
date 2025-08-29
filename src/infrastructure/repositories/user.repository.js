@@ -50,7 +50,6 @@ export class UserRepository {
 
     __mapUserWithPermissions(rows) {
         if (!rows || rows.length === 0) return null;
-
         const {
             user_id,
             user_name,

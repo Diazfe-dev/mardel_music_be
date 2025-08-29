@@ -18,7 +18,7 @@ UPDATE
 			social_media_id)
 );
 
--- Social media profile
+-- Social media artist
 INSERT 	INTO social_media_profile (profile_id, social_media_id, uri)
 VALUES
 (1,1, 'https://open.spotify.com/intl-es'),

@@ -12,10 +12,10 @@ export class LoginUserDto extends BaseDto {
     validate() {
         let errors = [];
         if (!this.email || !this.emailRegex.test(this.email)) {
-            errors.push("Email is invalid.");
+            errors.push("[email]: Email is invalid.");
         }
         if (!this.password || this.password.length < 6) {
-            errors.push("Password must be at least 6 characters long.");
+            errors.push("[password]: Password must be at least 6 characters long.");
         }
         return errors;
     }
