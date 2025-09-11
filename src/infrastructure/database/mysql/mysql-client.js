@@ -1,7 +1,7 @@
 import envVars from "../../../config/env-vars.js";
-import {createConnection} from "mysql2/promise";
+import { createConnection } from "mysql2/promise";
 
-const {MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE} = envVars;
+const { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE } = envVars;
 
 const mysqlClient = await createConnection({
     host: MYSQL_HOST,

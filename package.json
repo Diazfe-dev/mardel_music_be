@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start:dev": "nodemon --watch src src/app.js",
+    "migrate:dev": "node src/presentation/migrations/run-migrations.js",
     "start": ""
   },
   "dependencies": {

@@ -1,3 +1,6 @@
+-- Drop users table if exists
+DROP TABLE IF EXISTS users;
+
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -17,29 +20,3 @@ UPDATE
 	DELETE
 		RESTRICT
 );
-
-
--- Mock Users
-INSERT
-	INTO
-	users (name,
-	lastName,
-	email,
-	password,
-	role_id)
-VALUES
-('Admin',
-'Profile',
-'admin@test.com',
-'1234test',
-1),
-('Artist',
-'Profile',
-'artist@test.com',
-'1234test',
-2),
-('Viewer',
-'Profile',
-'viewer@test.com',
-'1234test',
-3);

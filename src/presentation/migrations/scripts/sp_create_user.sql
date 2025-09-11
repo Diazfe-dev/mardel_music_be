@@ -53,20 +53,4 @@ COMMIT;
 
 END $$
 
--- Restaura el delimitador estándar.
 DELIMITER ;
-
--- ====================================================================================================
--- EJEMPLOS DE USO DEL PROCEDIMIENTO ALMACENADO
--- ====================================================================================================
-
--- Ejemplo 1: Crear un usuario asignando un rol específico (por ejemplo, 'artist' con id 2)
--- CALL sp_create_user('Nuevo', 'Artista', 'nuevo.artista@test.com', 'hashedpassword123', NULL, 2, @new_user_id_artist);
--- SELECT @new_user_id_artist;
-
--- Ejemplo 2: Crear un usuario sin especificar un rol (se le asignará 'visitant' por defecto)
--- CALL sp_create_user('Visitante', 'Default', 'visitante.default@test.com', 'hashedpassword456', NULL, NULL, @new_user_id_viewer);
--- SELECT @new_user_id_viewer;
-
--- Para verificar los usuarios creados:
--- SELECT * FROM users WHERE id = @new_user_id_artist OR id = @new_user_id_viewer;

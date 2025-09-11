@@ -1,3 +1,6 @@
+-- Drop profiles table if it exists
+DROP TABLE IF EXISTS profiles;
+
 -- Create profiles table
 CREATE TABLE IF NOT EXISTS profiles (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -14,9 +17,3 @@ UPDATE
 	DELETE
 		CASCADE
 );
-
-
--- Mock Profiles
-INSERT INTO profiles (user_id, artist_name, bio ,avatar_url )
-VALUES
-(2, 'Perfil de Prueba', 'Soy un perfil de usuario de prueba', 'https://www.google.com');

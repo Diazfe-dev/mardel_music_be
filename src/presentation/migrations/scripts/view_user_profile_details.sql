@@ -23,6 +23,3 @@ GROUP BY
     pr.id, pr.artist_name, pr.bio, pr.avatar_url, pr.verified
 ORDER BY
     u.id;
-
--- EJEMPLO PARA LLAMAR AL VIEW user_profile_details
--- SELECT * FROM user_profile_details WHERE user_id = 1;

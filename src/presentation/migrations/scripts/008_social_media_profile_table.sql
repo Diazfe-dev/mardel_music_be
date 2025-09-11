@@ -1,3 +1,6 @@
+-- Drop social_media_profile table if it exists
+DROP TABLE IF EXISTS social_media_profile;
+
 -- Create social_media_profile table
 CREATE TABLE IF NOT EXISTS social_media_profile (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -18,11 +21,9 @@ UPDATE
 			social_media_id)
 );
 
--- Social media artist
-INSERT 	INTO social_media_profile (profile_id, social_media_id, uri)
-VALUES
-(1,1, 'https://open.spotify.com/intl-es'),
-(1,3, 'https://www.youtube.com/'),
-(1,
-4,
-'https://soundcloud.com/discover');
+-- -- Social media artist
+-- INSERT 	INTO social_media_profile (profile_id, social_media_id, uri)
+-- VALUES
+-- (1,1, 'https://open.spotify.com/intl-es'),
+-- (1,3, 'https://www.youtube.com/'),
+-- (1,4,'https://soundcloud.com/discover');
