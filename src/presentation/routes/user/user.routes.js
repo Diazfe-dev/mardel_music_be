@@ -16,13 +16,13 @@ const userController = new UserController(
     new FileService())
 
 const userRouter = Router();
+
 userRouter.get('/me',
     sessionGuard,
     async (req, res) => await userController.getUserProfile(req, res));
 
-userRouter.put(
-    '/profile-image',
+userRouter.put('/profile-image',
     sessionGuard,
-    async (req, res) => await userController.saveProfileImage(req, res))
-
+    async (req, res) => await userController.saveProfileImage(req, res));
+    
 export default userRouter;

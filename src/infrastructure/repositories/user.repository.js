@@ -1,5 +1,5 @@
-import {InternalServerErrorException} from "../lib/index.js";
-import {UserDto, UserDtoWithPermissions} from "../../domain/models/dto/index.js";
+import { InternalServerErrorException } from "../lib/index.js";
+import { UserDto, UserDtoWithPermissions } from "../../domain/models/dto/index.js";
 
 export class UserRepository {
     constructor(db) {
@@ -34,15 +34,15 @@ export class UserRepository {
     }
 
     async create({
-                     role_id = null,
-                     name,
-                     lastName,
-                     email,
-                     password,
-                     profile_picture = null,
-                     social_login = false,
-                     phone_number = null
-                 }) {
+        role_id = null,
+        name,
+        lastName,
+        email,
+        password,
+        profile_picture = null,
+        social_login = false,
+        phone_number = null
+    }) {
         try {
             await this.db.execute(
                 `CALL sp_create_user(?, ?, ?, ?, ?, ?, ?, ?, @new_user_id)`,
@@ -61,7 +61,6 @@ export class UserRepository {
     }
 
     async updateProfileImage(userId, imageUrl) {
-        console.log(userId, imageUrl);
         try {
             const [result] = await this.db.execute(
                 `UPDATE users SET profile_picture = ? WHERE id = ?`,

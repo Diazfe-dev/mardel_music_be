@@ -1,4 +1,4 @@
-import {BadRequestException} from "../lib/exceptions/index.js";
+import { BadRequestException } from "../lib/exceptions/index.js";
 
 export function validateDto(DtoClass) {
     return (req, res, next) => {
@@ -28,7 +28,26 @@ export function validateDtoFromParams(DtoClass, param) {
             req.params.dto = dtoInstance.serialize();
             next();
         } catch
-            (error) {
+        (error) {
+            next(error);
+        }
+    }
+}
+
+export function validateDtoFromFormData(DtoClass) {
+    return (req, res, next) => {
+        try {
+            if (req.headers['content-type']?.includes('multipart/form-data')) {
+                const dtoInstance = new DtoClass({ ...req.body });
+                const errors = dtoInstance.validate();
+                if (errors.length > 0) {
+                    throw new BadRequestException(errors.join(", "));
+                }
+                req.body.dto = dtoInstance.serialize();
+                next();
+            }
+        }
+        catch (error) {
             next(error);
         }
     }

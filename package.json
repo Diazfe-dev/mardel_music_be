@@ -4,9 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start:dev": "nodemon --watch src src/app.js",
     "migrate:dev": "node src/presentation/migrations/run-migrations.js",
-    "start": ""
+    "start": "nodemon --watch src src/app.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
