@@ -16,22 +16,18 @@ export class CreateArtistProfileDto extends BaseDto {
             errors.push('Name is required and must be a non-empty string');
         }
 
-        // Validar longitud del nombre
         if (this.name && this.name.length > 255) {
             errors.push('Name must be less than 255 characters');
         }
 
-        // Validar bio requerida
         if (!this.bio || typeof this.bio !== 'string' || this.bio.trim().length === 0) {
             errors.push('Bio is required and must be a non-empty string');
         }
 
-        // Validar longitud de bio
         if (this.bio && this.bio.length > 1000) {
             errors.push('Bio must be less than 1000 characters');
         }
 
-        // Validar location (opcional)
         if (this.location && typeof this.location !== 'string') {
             errors.push('Location must be a string');
         }
@@ -40,14 +36,11 @@ export class CreateArtistProfileDto extends BaseDto {
             errors.push('Location must be less than 255 characters');
         }
 
-        // Validar géneros (opcional)
         if (this.genres) {
-            console.log("Validating genres:", this.genres.split(','));
             if (typeof this.genres === 'string') {
                 try {
                     JSON.parse(this.genres);
                 } catch (e) {
-                    // Si no es JSON, verificar que sea CSV válido
                     if (!this.genres.match(/^[a-zA-Z\s,]+$/)) {
                         errors.push('Genres must be a valid JSON array or comma-separated string');
                     }
@@ -57,7 +50,6 @@ export class CreateArtistProfileDto extends BaseDto {
             }
         }
 
-        // Validar redes sociales (opcional)
         if (this.social_media) {
             if (typeof this.social_media === 'string') {
                 try {
@@ -73,7 +65,6 @@ export class CreateArtistProfileDto extends BaseDto {
             }
         }
 
-        // Validar URL de imagen de perfil (opcional)
         if (this.profileImageUrl && typeof this.profileImageUrl !== 'string') {
             errors.push('Profile image URL must be a string');
         }
@@ -117,7 +108,6 @@ export class UpdateArtistProfileDto extends BaseDto {
             }
         }
 
-        // Validar bio
         if (this.bio !== undefined) {
             if (typeof this.bio !== 'string' || this.bio.trim().length === 0) {
                 errors.push('Bio must be a non-empty string');
@@ -127,7 +117,6 @@ export class UpdateArtistProfileDto extends BaseDto {
             }
         }
 
-        // Validar location
         if (this.location !== undefined) {
             if (typeof this.location !== 'string') {
                 errors.push('Location must be a string');
@@ -137,7 +126,6 @@ export class UpdateArtistProfileDto extends BaseDto {
             }
         }
 
-        // Validar géneros
         if (this.genres !== undefined) {
             if (typeof this.genres === 'string') {
                 try {
@@ -152,7 +140,6 @@ export class UpdateArtistProfileDto extends BaseDto {
             }
         }
 
-        // Validar redes sociales
         if (this.social_media !== undefined) {
             if (typeof this.social_media === 'string') {
                 try {
@@ -168,7 +155,6 @@ export class UpdateArtistProfileDto extends BaseDto {
             }
         }
 
-        // Validar URL de imagen de perfil
         if (this.profileImageUrl !== undefined && typeof this.profileImageUrl !== 'string') {
             errors.push('Profile image URL must be a string');
         }
