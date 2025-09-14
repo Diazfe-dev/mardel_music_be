@@ -1,3 +1,6 @@
+-- Drop permissions_to_roles table
+DROP TABLE IF EXISTS permissions_to_roles;
+
 -- Create permissions_to_roles table
 CREATE TABLE IF NOT EXISTS permissions_to_roles (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -11,14 +14,14 @@ CREATE TABLE IF NOT EXISTS permissions_to_roles (
 );
 
 
--- Admin
-INSERT INTO permissions_to_roles(role_id, permission_id)
-SELECT 	1, id FROM permissions;
+-- -- Admin
+-- INSERT INTO permissions_to_roles(role_id, permission_id)
+-- SELECT 	1, id FROM permissions;
 
--- Artist
-INSERT INTO permissions_to_roles(role_id, permission_id)
-VALUES (2, 8), (2, 9), (2, 10), (2, 11);
+-- -- Artist
+-- INSERT INTO permissions_to_roles(role_id, permission_id)
+-- VALUES (2, 8), (2, 9), (2, 10), (2, 11);
 
--- Visitant 
-INSERT INTO permissions_to_roles (role_id, permission_id)
-VALUES (3, 11);
+-- -- Visitant 
+-- INSERT INTO permissions_to_roles (role_id, permission_id)
+-- VALUES (3, 11);

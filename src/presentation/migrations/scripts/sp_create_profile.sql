@@ -37,17 +37,3 @@ END WHILE;
 COMMIT;
 END $$
 DELIMITER ;
-
--- EJEMPLO PARA CREAR EL PERFIL DEL USUARIO USANDO EL SP sp_create_profile
--- CALL sp_create_profile(
---     1,
---     'Artista Ejemplo 1',
---     'Biografía de ejemplo para el perfil de un artista.',
---     'https://avatar.url/ejemplo.png',
---     TRUE,
---     '[{"social_media_id":1,"uri":"https://open.spotify.com/intl-es/user/ejemplo"},{"social_media_id":2,"uri":"https://www.apple.com/la/apple-music/artist/ejemplo"}]',
---     @profile_id
--- );
-
-
-

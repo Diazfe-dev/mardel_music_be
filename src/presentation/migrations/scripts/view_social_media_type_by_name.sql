@@ -13,5 +13,3 @@ FROM
     social_media sm ON sm.type_id = smt.id
 ORDER BY
     smt.name, sm.name;
-
--- SELECT * FROM social_media_type_by_name WHERE social_media_type_name = "music";
