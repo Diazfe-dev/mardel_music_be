@@ -1,5 +1,5 @@
-import {InternalServerErrorException} from "../../../infrastructure/lib/index.js";
-import {successResponse} from "../../../infrastructure/lib/index.js";
+import { InternalServerErrorException } from "../../../infrastructure/lib/index.js";
+import { successResponse } from "../../../infrastructure/lib/index.js";
 
 export class AuthController {
     constructor(authService) {
@@ -8,15 +8,15 @@ export class AuthController {
 
     async login(req, res) {
         console.log(req.body.dto);
-        const {user} = await this.authService.validateLoginCredentials(req.body.dto);
+        const { user } = await this.authService.validateLoginCredentials(req.body.dto);
         req.session.user = user;
-        return successResponse(res, {user}, 200);
+        return successResponse(res, { user }, 200);
     }
 
     async register(req, res) {
-        const {user} = await this.authService.registerUser(req.body.dto);
+        const { user } = await this.authService.registerUser(req.body.dto);
         req.session.user = user;
-        return successResponse(res, {user}, 201);
+        return successResponse(res, { user }, 201);
     }
 
     async logout(req, res) {

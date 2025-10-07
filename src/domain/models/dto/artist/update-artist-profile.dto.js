@@ -1,33 +1,31 @@
 import Joi from 'joi';
 import { BaseDto } from "../base-dto/index.js";
 
-export class CreateArtistProfileDto extends BaseDto {
+export class UpdateArtistProfileDto extends BaseDto {
     constructor(data = {}) {
         super(data);
-        
+
         this.schema = Joi.object({
             name: Joi.string()
                 .min(1)
                 .max(255)
                 .trim()
-                .required()
+                .optional()
                 .messages({
-                    'string.min': 'Artist name is required',
-                    'string.max': 'Artist name must not exceed 255 characters',
-                    'any.required': 'Artist name is required'
+                    'string.min': 'Artist name cannot be empty',
+                    'string.max': 'Artist name must not exceed 255 characters'
                 }),
-            
+
             bio: Joi.string()
                 .min(10)
                 .max(1000)
                 .trim()
-                .required()
+                .optional()
                 .messages({
                     'string.min': 'Bio must be at least 10 characters long',
-                    'string.max': 'Bio must not exceed 1000 characters',
-                    'any.required': 'Bio is required'
+                    'string.max': 'Bio must not exceed 1000 characters'
                 }),
-            
+
             location: Joi.string()
                 .max(255)
                 .trim()
@@ -36,33 +34,17 @@ export class CreateArtistProfileDto extends BaseDto {
                 .messages({
                     'string.max': 'Location must not exceed 255 characters'
                 }),
-            
+
             genres: Joi.alternatives()
                 .try(
-                    Joi.array().items(Joi.string().trim().min(1)),
-                    Joi.string().custom((value, helpers) => {
-                        try {
-                            if (value.startsWith('[') && value.endsWith(']')) {
-                                const parsed = JSON.parse(value);
-                                if (Array.isArray(parsed)) {
-                                    return parsed.map(item => String(item).trim()).filter(g => g.length > 0);
-                                }
-                            }
-                            const genres = value.split(',')
-                                .map(g => g.trim())
-                                .filter(g => g.length > 0);
-                            return genres;
-                        } catch {
-                            return helpers.error('any.invalid');
-                        }
-                    })
+                    Joi.array().items(Joi.number().integer().positive()),
+                    Joi.string().pattern(/^(\d+,)*\d+$/)
                 )
                 .optional()
                 .messages({
-                    'alternatives.match': 'Genres must be an array of strings or comma-separated string',
-                    'any.invalid': 'Genres must be valid genre names'
+                    'alternatives.match': 'Genres must be an array of numbers or comma-separated string of numbers'
                 }),
-            
+
             social_media: Joi.alternatives()
                 .try(
                     Joi.array().items(
@@ -88,7 +70,7 @@ export class CreateArtistProfileDto extends BaseDto {
                     'alternatives.match': 'Social media must be an array of objects with social_media_id and url',
                     'any.invalid': 'Social media must be valid JSON array'
                 }),
-            
+
             profileImageUrl: Joi.string()
                 .uri()
                 .optional()
@@ -96,6 +78,8 @@ export class CreateArtistProfileDto extends BaseDto {
                 .messages({
                     'string.uri': 'Profile image URL must be a valid URL'
                 })
+        }).min(1).messages({
+            'object.min': 'At least one field must be provided for update'
         });
     }
 }

@@ -1,24 +1,19 @@
-import {Router} from "express";
+import { Router } from "express";
 import mysqlClient from "../../../infrastructure/database/mysql/mysql-client.js";
 
-// Middlewares
-import {permissionGuard, roleGuard, sessionGuard, validateDto} from "../../../infrastructure/middlewares/index.js";
+import { sessionGuard, validateDto } from "../../../infrastructure/middlewares/index.js";
 
-// Controllers
-import {AuthController} from "../../controllers/auth/auth.controller.js";
+import { AuthController } from "../../controllers/auth/auth.controller.js";
 
-// Services
-import {AuthService} from "../../../infrastructure/services/auth/auth.service.js";
-import {JsonWebTokenService} from "../../../infrastructure/services/jwt/jwt.service.js";
-import {BcryptService} from "../../../infrastructure/services/bcrypt/bcrypt.service.js";
+import { AuthService } from "../../../infrastructure/services/auth/auth.service.js";
+import { JsonWebTokenService } from "../../../infrastructure/services/jwt/jwt.service.js";
+import { BcryptService } from "../../../infrastructure/services/bcrypt/bcrypt.service.js";
 
-// Adapters
-import {BcryptAdapter, JwtAdapter} from "../../../infrastructure/lib/index.js";
+import { BcryptAdapter, JwtAdapter } from "../../../infrastructure/lib/index.js";
 
-// Repositories
-import {UserRepository, RoleRepository} from "../../../infrastructure/repositories/index.js";
-// Dtos
-import {LoginUserDto, RegisterUserDto} from "../../../domain/models/dto/index.js";
+import { UserRepository, RoleRepository } from "../../../infrastructure/repositories/index.js";
+
+import { LoginUserDto, RegisterUserDto } from "../../../domain/models/dto/index.js";
 
 const roleRepository = new RoleRepository(mysqlClient);
 const userRepository = new UserRepository(mysqlClient);

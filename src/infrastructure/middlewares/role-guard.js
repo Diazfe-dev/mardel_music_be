@@ -4,8 +4,7 @@ export function roleGuard(requiredRoles = []) {
     return (req, res, next) => {
         try {
             if (!req.session || !req.session.user) throw new UnauthorizedException("Session not found, please log in")
-
-            const userRole = req.session.user.role;
+            const userRole = req.session.user.role.name;
             if (!userRole) throw new UnauthorizedException("Unauthorized access, no role found");
 
             const hasRole = requiredRoles.includes(userRole);

@@ -61,6 +61,7 @@ export class UserRepository {
     }
 
     async updateProfileImage(userId, imageUrl) {
+
         try {
             const [result] = await this.db.execute(
                 `UPDATE users SET profile_picture = ? WHERE id = ?`,
@@ -68,6 +69,7 @@ export class UserRepository {
             );
             return result.affectedRows > 0;
         } catch (err) {
+            console.error('Error updating profile image:', err);
             throw new InternalServerErrorException('Failed to update profile image: ' + err.message);
         }
     }

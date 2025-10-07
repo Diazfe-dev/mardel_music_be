@@ -4,7 +4,7 @@ import {
     UnauthorizedException
 } from "../../lib/exceptions/index.js";
 
-import {randomUUID} from "crypto"
+import { randomUUID } from "crypto"
 
 export class AuthService {
 
@@ -15,7 +15,7 @@ export class AuthService {
     }
 
     async validateLoginCredentials(data) {
-        const {email, password} = data;
+        const { email, password } = data;
         const user = await this.userRepository.findByEmail(email);
         if (!user) {
             throw new UnauthorizedException("Invalid email or password");
@@ -32,7 +32,7 @@ export class AuthService {
     }
 
     async registerUser(data, role) {
-        const {name, lastName, email, password, phone_number} = data;
+        const { name, lastName, email, password, phone_number } = data;
 
         if (!name || !lastName || !email || !password) {
             throw new BadRequestException("Missing required fields: name, lastName, email, password");
@@ -62,7 +62,7 @@ export class AuthService {
     }
 
     async generateAccessToken(user) {
-        return await this.jwtService.sign({sub: user.id}, '1h');
+        return await this.jwtService.sign({ sub: user.id }, '1h');
     }
 
     generateRefreshToken() {

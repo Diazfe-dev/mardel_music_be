@@ -9,7 +9,7 @@ export class ArtistService {
     async createProfile(profileData) {
 
         const processedGenres = profileData.genres ? profileData.genres.split(',').map(g => g.trim()) : [];
-        
+
         const processedSocialMedia = this.processSocialMedia(profileData.social_media);
 
         const processedData = {
@@ -43,8 +43,8 @@ export class ArtistService {
                 bio: profile.bio,
                 location: profile.location,
                 profileImageUrl: profile.profile_image_url,
-                genres: profile.genres ? profile.genres.split(',') : [],
-                socialMedia: profile.social_media ? JSON.parse(profile.social_media) : [],
+                genres: profile.genres ? profile.genres.map(genre => genre.name) : [],
+                socialMedia: profile.social_media ? profile.social_media : [],
                 verified: profile.verified,
                 createdAt: profile.created_at,
                 updatedAt: profile.updated_at

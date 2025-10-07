@@ -8,7 +8,6 @@ export function getQueryFromParams(queryParam) {
             if (!queryParams) {
                 throw new BadRequestException(`Missing required parameter: ${queryParam}`);
             }
-            // Store the query parameter in req.query for consistent access
             req.query = req.query || {};
             req.query.search = queryParams;
             next();

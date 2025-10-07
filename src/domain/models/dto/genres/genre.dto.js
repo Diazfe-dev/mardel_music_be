@@ -1,36 +1,24 @@
-import {BaseDto} from "../base-dto/index.js";
+import Joi from 'joi';
+import { BaseDto } from "../base-dto/index.js";
 
+// DTO para mapear datos de géneros desde la base de datos
 export class GenreDto extends BaseDto {
     constructor(row) {
-        super()
-        this.id = row.id;
-        this.name = row.name;
-        this.description = row.description;
-    }
-
-    validate() {
-        const errors = [];
+        super(row);
         
-        if (!this.name || typeof this.name !== 'string' || this.name.trim().length === 0) {
-            errors.push('Name is required and must be a non-empty string');
-        } else if (this.name.length > 100) {
-            errors.push('Name must be less than 100 characters');
-        }
-
-        if (this.description && (typeof this.description !== 'string' || this.description.length > 255)) {
-            errors.push('Description must be a string less than 255 characters');
-        }
-
-        return errors;
+        // Schema para validar datos de género de la base de datos
+        this.schema = Joi.object({
+            id: Joi.number().integer().positive().required(),
+            name: Joi.string().min(1).max(100).required(),
+            description: Joi.string().max(255).allow(null).optional()
+        }).unknown(true); // Permite campos adicionales de la DB
     }
 
     serialize() {
         return {
-            id: this.id,
-            name: this.name,
-            description: this.description
-        }
+            id: this.data.id,
+            name: this.data.name,
+            description: this.data.description
+        };
     }
-
-
 }

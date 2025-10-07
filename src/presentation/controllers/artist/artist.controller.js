@@ -1,5 +1,5 @@
-import {InternalServerErrorException, BadRequestException} from "../../../infrastructure/lib/index.js";
-import {successResponse} from "../../../infrastructure/lib/index.js";
+import { BadRequestException } from "../../../infrastructure/lib/index.js";
+import { successResponse, generateImageUrl } from "../../../infrastructure/lib/index.js";
 
 export class ArtistController {
     constructor(artistService, fileService) {
@@ -9,10 +9,10 @@ export class ArtistController {
 
     async createArtistProfile(req, res) {
         try {
-            
+
             let profileImageUrl = null;
             if (req.file) {
-                profileImageUrl = `http://localhost:8080/uploads/${req.file.filename}`;
+                profileImageUrl = generateImageUrl(req.file.filename);
             }
             const profileData = {
                 userId: req.session.user.id,
@@ -23,7 +23,7 @@ export class ArtistController {
                 social_media: req.body.social_media,
                 profileImageUrl: profileImageUrl || req.body.profileImageUrl
             };
-            
+
             const result = await this.artistService.createProfile(profileData);
 
             return successResponse(res, result, 201);
@@ -37,7 +37,7 @@ export class ArtistController {
         try {
             const userId = req.params.userId || req.session.user.id;
             const profile = await this.artistService.getProfile(userId);
-            
+
             if (!profile) {
                 return successResponse(res, { message: 'Artist profile not found' }, 404);
             }
@@ -51,17 +51,12 @@ export class ArtistController {
 
     async updateArtistProfile(req, res) {
         try {
-            console.log('Update request body:', req.body);
-            console.log('Update request file:', req.file);
-            
             let profileImageUrl = null;
-            
-            // Si se subió un archivo a través de multer, está en req.file
+
             if (req.file) {
-                profileImageUrl = `http://localhost:8080/uploads/${req.file.filename}`;
+                profileImageUrl = generateImageUrl(req.file.filename);
             }
 
-            // Preparar datos para actualización
             const profileData = {
                 name: req.body.name,
                 bio: req.body.bio,
@@ -73,7 +68,6 @@ export class ArtistController {
 
             console.log('Profile data to update:', profileData);
 
-            // Filtrar campos undefined/null
             Object.keys(profileData).forEach(key => {
                 if (profileData[key] === undefined || profileData[key] === null) {
                     delete profileData[key];
@@ -112,13 +106,13 @@ export class ArtistController {
     async getProfileByUserId(req, res) {
         try {
             const { userId } = req.params;
-            
+
             if (!userId) {
                 throw new BadRequestException('User ID is required');
             }
 
             const profile = await this.artistService.getProfile(parseInt(userId));
-            
+
             if (!profile) {
                 return successResponse(res, { message: 'Artist profile not found' }, 404);
             }

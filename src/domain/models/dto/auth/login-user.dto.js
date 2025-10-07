@@ -1,29 +1,27 @@
-import {BaseDto} from "../base-dto/index.js";
+import Joi from 'joi';
+import { BaseDto } from "../base-dto/index.js";
 
 export class LoginUserDto extends BaseDto {
-    emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    constructor({email, password}) {
-        super()
-        this.email = email;
-        this.password = password;
-    }
-
-    validate() {
-        let errors = [];
-        if (!this.email || !this.emailRegex.test(this.email)) {
-            errors.push("[email]: Email is invalid.");
-        }
-        if (!this.password || this.password.length < 6) {
-            errors.push("[password]: Password must be at least 6 characters long.");
-        }
-        return errors;
-    }
-
-    serialize() {
-        return {
-            email: this.email,
-            password: this.password
-        };
+    constructor(data = {}) {
+        super(data);
+        this.schema = Joi.object({
+            email: Joi.string()
+                .email({ minDomainSegments: 2, tlds: { allow: true } })
+                .required()
+                .messages({
+                    'string.email': 'Please provide a valid email address',
+                    'any.required': 'Email is required'
+                }),
+            
+            password: Joi.string()
+                .min(6)
+                .max(100)
+                .required()
+                .messages({
+                    'string.min': 'Password must be at least 6 characters long',
+                    'string.max': 'Password must not exceed 100 characters',
+                    'any.required': 'Password is required'
+                })
+        });
     }
 }
